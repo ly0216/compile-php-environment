@@ -11,28 +11,51 @@ CentOS 支持 Ubuntu 支持 Mac调试中 windows 就老实的用XAMPP或MAMP吧�
 目录分析
 
 ├── ext PHP扩展 
+
 │ ├── mongodb.sh 
+
 │ ├── redis.sh 
+
 │ ├── swoole.sh 
+
 │ └── yaf.sh 
+
 ├── libs 第三方类库 
+
 ├── nginx-config nginx配置文件 
+
 │ ├── conf 
+
 │ │ └── nginx.conf 
+
 │ └── vhosts 
+
 │ └── admin.jiabin.cn.conf 提供了一个nginx结合swoole_http_server使用的配置文件 
+
 ├── php-config php配置文件 
+
 │ ├── php-fpm.conf 
+
 │ ├── php-fpm.d 
+
 │ │ └── www.conf 
+
 │ └── php.ini 
+
 └── tools 常用的工具方法 
+
 | └── base.sh 
+
 ├── config.sh 配置文件 
+
 ├── init.sh 初始化脚本 
+
 ├── install.log log 
+
 ├── nginx.sh nginx安装脚本 
+
 ├── php.sh php安装脚本 
+
 ├── README.md 流程分析
 
 config.sh配置相应的信息：比如nginx监听端口、php-fpm监听端口等 安装的程序会读取相应的配置，每个shell脚本(nginx.sh、php.sh、和ext目录下的shell)都可以单独安装，也可以通过init.sh串联起来整套安装。 安装成功会将对应的nginx-config和php-config拷贝到对应的目录，也会根据你在config.sh配置的端口进行更新。 所以你先看下config.sh配置对应的安装目录和开发的端口即可。 使用方法
