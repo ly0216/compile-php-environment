@@ -30,7 +30,7 @@ CentOS 支持 Ubuntu 支持 Mac调试中 windows 就老实的用XAMPP或MAMP吧�
 
 │ └── vhosts 
 
-│ └── admin.jiabin.cn.conf 提供了一个nginx结合swoole_http_server使用的配置文件 
+│ └── ly.lazili.com.conf 提供了一个nginx结合swoole_http_server使用的配置文件 
 
 ├── php-config php配置文件 
 
