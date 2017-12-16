@@ -51,7 +51,7 @@ fi
 # mcrypt
 ensure_dir "$package/libmcrypt"
 remove_dir "$package/libmcrypt/*"
-if [ ! -f "$package/php-$PHP_VERION.tar.bz2" ]; then
+if [ ! -f "$package/libmcrpt.tar.gz" ]; then
     wget -O $package/libmcrypt.tar.gz ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz
 fi
 tar -zxvf $package/libmcrypt.tar.gz -C $package/libmcrypt/ --strip-components 1
@@ -68,7 +68,7 @@ fi
 
 tar -jxvf $package/php-$PHP_VERSION.tar.bz2 -C $package/php/ --strip-components 1
 cd $package/php 
-./configure  --prefix=$PHP_PATH --with-config-file-path=$PHP_CONFIG_PATH --with-mcrypt=/usr/local/libmcrypt --with-openssl --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --disable-fileinfo --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mhash --with-xmlrpc --with-curl --with-imap-ssl --enable-bcmath --enable-fileinfo
+./configure  --prefix=$PHP_PATH --with-config-file-path=$PHP_CONFIG_PATH --with-mcrypt=/usr/local/libmcrypt --with-openssl --enable-fpm --enable-pcntl --enable-mysqlnd --enable-opcache --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-shmop --enable-zip --enable-ftp --enable-soap --enable-xml --enable-mbstring --disable-rpath --disable-debug --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pcre-regex --with-iconv --with-zlib --with-mhash --with-xmlrpc --with-curl --with-imap-ssl --enable-bcmath --enable-fileinfo
 make install
 if [ $? == 0 ]; then
     cp -rf $prj_path/php-config/* $PHP_CONFIG_PATH/
@@ -77,6 +77,13 @@ if [ $? == 0 ]; then
     run_cmd "`sed -i "s/{{PHP_FASTCGI_LISTEN_PORT}}/$PHP_FASTCGI_LISTEN_PORT/" $PHP_CONFIG_PATH/php-fpm.d/www.conf`" 
     run_cmd "ln -s $PHP_PATH/bin/* /usr/local/bin/"
     run_cmd "ln -s $PHP_PATH/sbin/* /usr/local/bin/"
+    echo -e php install success. `date` >> install.log
+    # install composer
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
+    run_cmd "mv composer.phar /usr/local/bin/composer"
     echo -e php install success. `date` >> install.log
 else
     echo -e php install fail. `date` >> install.log
